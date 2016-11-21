@@ -1,5 +1,6 @@
 package com.fxt.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fxt.pojo.User;
 import com.fxt.service.IUserService;
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,5 +31,14 @@ public class UserController {
     public String test(){
         return "test" ;
 
+    }
+    
+    @ResponseBody
+    @RequestMapping("/")
+    public JSONObject getFirstUser(HttpServletRequest request,
+    		@RequestParam(value = "id") String id) {
+    	int userId = Integer.parseInt(id);
+        User user = userService.getUserById(userId);
+    	return (JSONObject) JSONObject.toJSON(user);
     }
 }  
